@@ -5,6 +5,7 @@ module.exports = {
         mocha: true
       },
       rules: {
+        'func-names':0,
         'prefer-arrow-callback': 0,
         'no-unused-expressions': 0,
         'no-console': 0,
