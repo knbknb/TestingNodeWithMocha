@@ -1,6 +1,14 @@
 const assert = require('assert');
-const authController = require('../../controllers/auth.controller');
+const { expect } = require('chai');
+const should = require('chai').should();
+const chai = require('chai');
 
+const chaiAsPromised = require('chai-as-promised');
+
+chai.use(chaiAsPromised);
+chai.should();
+
+const authController = require('../../controllers/auth.controller');
 
 describe('AuthController', () => {
   // hook
@@ -12,11 +20,15 @@ describe('AuthController', () => {
   // nested describe
   describe('isAuthorized', () => {
     it('Should return false if not authorized', () => {
-      assert.equal(false, authController.isAuthorized('admin'));
+      const isAuth = authController.isAuthorized('admin');
+      // assert.equal(false, isAuth);
+      expect(isAuth).to.be.false;
     });
     it('Should return true if authorized', () => {
       authController.setRoles(['user', 'admin']);
-      assert.equal(true, authController.isAuthorized('admin'));
+      const isAuth = authController.isAuthorized('admin');
+      isAuth.should.be.true;
+      // assert.equal(true, authController.isAuthorized('admin'));
     });
 
     // pending tests. no need for TODO comments
@@ -39,6 +51,15 @@ describe('AuthController', () => {
           assert.equal(false, isAuth);
           done();
         });
+    });
+  });
+
+
+  describe('isAuthorizedPromise', () => {
+    it('Should return false if not authorized', function x() {
+      // 'this' refers to mocha object here. Only when NOT using arrow functions
+      // this.timeout(2500);
+      authController.isAuthorizedPromise('admin').should.eventually.be.false;
     });
   });
 });
